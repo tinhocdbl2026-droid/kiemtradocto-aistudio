@@ -6,6 +6,7 @@ import {assessmentPlugin} from './assessmentServer';
 
 export default defineConfig(() => {
   return {
+    base: '/kiemtradocto-aistudio/',
     plugins: [react(), tailwindcss(), assessmentPlugin()],
     resolve: {
       alias: {
