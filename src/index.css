@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: Arial, "Segoe UI", Tahoma, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    letter-spacing: normal;
+  }
+}
+
+/* Lớp chuyên biệt hiển thị bài đọc học sinh và transcript/căn chỉnh tiếng Việt chống tách dấu */
+.reading-text {
+  font-family: Arial, "Segoe UI", Tahoma, sans-serif !important;
+  font-size: 22px;
+  line-height: 1.8;
+  letter-spacing: normal !important;
+  font-variant-ligatures: none !important;
+  word-break: normal;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+@media (min-width: 768px) {
+  .reading-text {
+    font-size: 24px;
+  }
+}
+
+.print-page-font {
+  font-family: Arial, "Times New Roman", Times, "Segoe UI", Tahoma, sans-serif !important;
+  letter-spacing: normal !important;
+  font-variant-ligatures: none !important;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+  
+  html, body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Chỉ ẩn các phần app ngoài modal qua class no-print hoặc body:has(.print-modal-root) #root */
+  .no-print,
+  body:has(.print-modal-root) nav,
+  body:has(.print-modal-root) main,
+  body:has(.print-modal-root) footer {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* 3 wrapper: position:static!important;display:block!important;height:auto!important;max-height:none!important;overflow:visible!important;inset:auto!important;padding:0!important;margin:0!important;background:white!important;box-shadow:none!important;border:0!important; */
+  .print-modal-root,
+  .print-modal-shell,
+  .print-modal-scroll {
+    position: static !important;
+    display: block !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    inset: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+
+  /* .print-page min-height:0!important;height:auto!important;width:100%!important;max-width:none!important;padding:0!important; tránh min-h297mm cộng lề */
+  .print-page {
+    position: static !important;
+    min-height: 0 !important;
+    height: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: white !important;
+    font-family: Arial, "Times New Roman", Times, "Segoe UI", Tahoma, sans-serif !important;
+    letter-spacing: normal !important;
+    font-variant-ligatures: none !important;
+  }
+
+  /* Các table/row break-inside:avoid, nội dung dài phân trang bình thường. Không ép toàn phiếu break-inside avoid */
+  table, tr, thead, tbody {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* Giao diện kiểm tra đọc: hành động chính luôn cạnh bài đọc. */
+.reading-session { color: #1e293b; }
+.session-card, .session-workspace { border: 1px solid #dbe4ee; border-radius: 16px; background: #fff; box-shadow: 0 3px 16px #0f172a05; }
+.session-workspace { position: relative; }
+.session-card > p { color: #64748b; font-size: 14px; line-height: 1.6; }
+.session-card h2, .session-card h3 { color: #153b69; }
+.session-input { padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 10px; background: #fff; color: #1e293b; max-width: 100%; }
+.session-input:focus { outline: 3px solid #bfdbfe; border-color: #2563eb; }
+.session-button { min-height: 42px; padding: 9px 14px; border: 1px solid #dbe4ee; border-radius: 10px; background: #fff; color: #1e40af; font-weight: 600; font-size: 14px; transition: background .15s; }
+.session-button:hover:not(:disabled) { background: #eff6ff; border-color: #93c5fd; }
+.session-button:focus-visible, .session-options summary:focus-visible, .app-nav button:focus-visible { outline: 3px solid #93c5fd; outline-offset: 3px; }
+.session-button:disabled { opacity: .45; cursor: not-allowed; }
+.session-primary { background: #2563eb; color: #fff; border-color: #2563eb; box-shadow: 0 3px 8px #2563eb20; }
+.session-primary:hover:not(:disabled) { background: #1d4ed8; color: #fff; }
+.session-stop { background: #be123c; color: #fff; border-color: #be123c; }
+.session-stop:hover:not(:disabled) { background: #9f1239; color: #fff; }
+.reading-toolbar { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 12px 16px; background: #f8fbff; border-bottom: 1px solid #dbe4ee; border-radius: 16px 16px 0 0; box-shadow: 0 3px 8px #0f172a05; }
+.reading-status { display: flex; align-items: center; gap: 10px; flex: 1 1 220px; font-size: 14px; }
+.status-dot { width: 10px; height: 10px; flex-shrink: 0; border-radius: 50%; background: #94a3b8; }
+.status-dot.is-recording { background: #e11d48; box-shadow: 0 0 0 4px #ffe4e6; }
+.reading-meter { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; font-variant-numeric: tabular-nums; }
+.reading-meter strong { font-size: 20px; color: #153b69; }
+.passage-panel { padding: 20px 24px; }
+.passage-content { background: #f8fafc; border-radius: 12px; padding: 18px 22px; color: #172b46; }
+.passage-count { padding: 5px 10px; border-radius: 99px; background: #eff6ff; color: #1d4ed8; font-size: 12px; font-weight: 600; }
+.passage-empty { padding: 28px 20px; text-align: center; color: #64748b; font-size: 14px; }
+.passage-empty p { margin-top: 6px; }
+.recording-options { padding: 12px 20px; border-top: 1px solid #eef2f7; }
+.session-options summary { cursor: pointer; color: #475569; font-size: 13px; font-weight: 600; padding: 4px 0; }
+.session-options input[type=checkbox] { margin-top: 3px; flex-shrink: 0; }
+.reading-session table { font-size: 14px; }
+.reading-session th { background: #f1f5f9; color: #334155; }
+.reading-session td, .reading-session th { border-color: #e2e8f0; }
+.reading-session tbody tr:nth-child(even) { background: #f8fafc; }
+@media (max-width: 640px) {
+ .app-header h1 { font-size: 16px; }
+ .reading-toolbar { padding: 10px 12px; gap: 8px; }
+ .reading-status { flex-basis: 100%; }
+ .reading-meter { width: 100%; }
+ .reading-toolbar > .flex { width: 100%; }
+ .reading-toolbar .session-primary { flex: 1; }
+ .passage-panel { padding: 16px 12px; }
+ .passage-content { padding: 14px 12px; }
+ .recording-options { padding: 10px 12px; }
+}
+@media print { .reading-toolbar { position: static; box-shadow: none; } }
+
+/* Tinh chỉnh theo lượt kiểm duyệt giao diện độc lập. */
+.session-setup > p { font-size: 12px; }
+.session-setup label { font-size: 13px; font-weight: 600; color: #475569; }
+.session-setup select { margin-top: 4px; font-weight: 400; }
+.mobile-reset { display: none; }
+@media (max-width: 640px) {
+ .reading-status { flex: 1 1 140px; font-size: 12px; }
+ .reading-status .text-xs { display: none; }
+ .reading-meter { width: auto; gap: 5px; }
+ .reading-meter strong { font-size: 17px; }
+ .reading-meter > span:first-child { display: none; }
+ .reading-toolbar .toolbar-reset { display: none; }
+ .mobile-reset { display: inline-block; }
+ .reading-toolbar > .flex { display: flex; flex-wrap: wrap; }
+ .reading-toolbar > .flex > button { flex: 1 1 auto; }
+}
+
+/* Toàn bài trong một khung nhìn, mặc định khi chọn bài cho học sinh. */
+.speech-choice { padding: 10px 16px; border-bottom: 1px solid #dbe4ee; background: #fff; font-size: 13px; color: #475569; }
+.speech-choice label { display: inline-flex; align-items: center; gap: 8px; color: #153b69; margin-right: 14px; }
+.speech-choice p { font-size: 11px; color: #64748b; margin-top: 3px; }
+.whole-passage-shell { height: clamp(320px, 65dvh, 760px); display: flex; flex-direction: column; min-height: 0; }
+.whole-passage-box { flex: 1; min-height: 0; padding: 14px 18px; background: #f8fafc; border-radius: 12px; }
+.whole-passage-text { height: 100%; width: 100%; font-family: Arial, 'Segoe UI', Tahoma, sans-serif; line-height: 1.4; letter-spacing: normal; font-variant-ligatures: none; color: #172b46; column-gap: 32px; column-fill: balance; overflow-wrap: break-word; }
+.whole-passage-text p { white-space: pre-wrap; margin: 0 0 .7em; break-inside: avoid; }
+.whole-passage-text p:last-child { margin-bottom: 0; }
+.fit-notice { font-size: 11px; color: #92400e; padding: 4px; }
+.student-reading-screen { position: fixed; inset: 0; z-index: 100; height: 100dvh; border: 0; border-radius: 0; display: flex; flex-direction: column; margin: 0 !important; background: #fff; }
+.student-screen-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 16px; background: #153b69; color: #fff; }
+.student-screen-heading strong { font-size: 14px; }
+.student-screen-heading span { display: block; font-size: 11px; opacity: .85; }
+.student-screen-heading .session-button { min-height: 34px; font-size: 12px; padding: 6px 10px; flex-shrink: 0; }
+.student-screen-selectors { display: flex; gap: 12px; padding: 6px 16px; background: #fff; font-size: 12px; }
+.student-screen-selectors label { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
+.student-screen-selectors select { min-width: 0; width: 100%; padding: 5px 8px; }
+.student-reading-screen .reading-toolbar { position: static; border-radius: 0; padding: 8px 16px; }
+.student-reading-screen .passage-panel { min-height: 0; flex: 1; display: flex; flex-direction: column; padding: 10px 20px 14px; }
+.student-reading-screen .passage-panel > .flex { margin-bottom: 8px; flex-shrink: 0; }
+.student-reading-screen .whole-passage-shell { height: auto; flex: 1; }
+.student-reading-screen .recording-options { display: none; }
+.student-reading-screen .reading-status .text-xs { display: none; }
+.in-student-view > :not(.student-reading-screen) { display: none; }
+.reading-screen-active .app-header, .reading-screen-active footer { display: none; }
+.reading-screen-active { overflow: hidden; }
+.screen-mic-error { padding: 6px 16px; font-size: 12px; color: #92400e; background: #fffbeb; }
+@media (max-width: 640px) {
+ .student-screen-heading { padding: 6px 10px; }
+ .student-screen-heading span { display: none; }
+ .student-screen-selectors { padding: 5px 10px; gap: 6px; }
+ .student-screen-selectors label { display: block; font-size: 10px; }
+ .student-screen-selectors select { font-size: 12px; }
+ .student-reading-screen .passage-panel { padding: 8px 10px; }
+ .student-reading-screen .passage-panel h3 { font-size: 16px; }
+ .student-reading-screen .passage-panel p.text-xs { display: none; }
+ .student-reading-screen .reading-toolbar { padding: 6px 10px; }
+ .speech-choice { padding: 6px 10px; font-size: 11px; }
+ .speech-choice label { margin-right: 0; }
+ .speech-choice > span { display: block; }
+ .whole-passage-box { padding: 8px 10px; }
+}
+@media print { .student-reading-screen { position: static; height: auto; } .whole-passage-shell,.whole-passage-text { height: auto; } }
+
+/* Ưu tiên diện tích chữ cho học sinh. */
+.student-screen-heading { padding: 5px 12px; }
+.student-reading-screen .speech-choice { padding: 5px 12px; }
+.student-reading-screen .speech-choice p { display: inline; margin-left: 8px; }
+.student-screen-selectors { padding: 4px 12px; font-size: 12px; }
+.student-reading-screen .reading-toolbar { padding: 5px 12px; gap: 8px; }
+.student-reading-screen .passage-panel { padding: 6px 12px 10px; }
+.student-reading-screen .passage-panel > .flex { margin-bottom: 4px; }
+.student-reading-screen .passage-panel p.text-xs { display: none; }
+.student-reading-screen .passage-panel h3 { font-size: 18px; }
+@media (max-width: 640px) {
+ .student-screen-heading strong { font-size: 12px; }
+ .student-reading-screen .speech-choice p { display: block; margin-left: 0; line-height: 1.25; }
+ .student-reading-screen .speech-choice { font-size: 11px; line-height: 1.3; }
+ .student-screen-selectors { font-size: 11px; }
+ .student-reading-screen .reading-toolbar { padding: 4px 10px; gap: 4px; }
+ .student-reading-screen .reading-status { flex-basis: 110px; }
+ .student-reading-screen .passage-panel h3 { font-size: 15px; }
+ .student-reading-screen .passage-panel { padding: 4px 8px 8px; }
+}
+
+/* Chọn chế độ đọc rõ ràng, hiển thị kết quả ngay sau khi kết thúc. */
+.start-choice { padding: 12px 16px; background: #eff6ff; border: 1px solid #bfdbfe; }
+.start-choice h3 { font-size: 16px; font-weight: 700; color: #153b69; }
+.start-choice p { margin: 6px 0 10px; font-size: 13px; line-height: 1.45; color: #475569; }
+.live-transcript { padding: 5px 12px; font-size: 12px; color: #153b69; background: #eff6ff; }
+.session-result { scroll-margin-top: 16px; border-color: #93c5fd; }
+.result-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr)); gap: 10px; }
+.result-stats > div { border-radius: 10px; background: #f1f5f9; padding: 12px; }
+.result-stats span { display: block; font-size: 12px; color: #64748b; margin-bottom: 4px; }
+.result-stats strong { display: block; font-size: 18px; color: #153b69; }
+.session-result > p.result-empty { background: #fffbeb; border-radius: 10px; padding: 12px; color: #92400e; }
+@media (max-width: 640px) { .start-choice { padding: 8px 10px; } .start-choice .session-button { font-size: 12px; } .result-stats { grid-template-columns: repeat(2,minmax(0,1fr)); } .result-stats strong { font-size: 15px; } }

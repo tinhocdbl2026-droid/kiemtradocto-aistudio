@@ -1,0 +1,10 @@
+{
+  "name": "ỨNG DỤNG KIỂM TRA ĐỌC TO LỚP 3",
+  "description": "Ứng dụng kiểm tra đọc học sinh tiểu học – Tác giả Cô Trương Kim Thoại, Trường Tiểu học Đinh Bộ Lĩnh, phường Rạch Giá, tỉnh An Giang.",
+  "requestFramePermissions": [
+    "android.permission.RECORD_AUDIO"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
